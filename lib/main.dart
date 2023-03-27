@@ -27,9 +27,19 @@ class MyApp extends StatelessWidget {
 
 class MyAppState extends ChangeNotifier {
   var current = WordPair.random();
+
+  void getNext() {
+    current = WordPair.random();
+    notifyListeners();
+  }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
@@ -39,6 +49,13 @@ class MyHomePage extends StatelessWidget {
         children: [
           Text('A random idea:'),
           Text(appState.current.asLowerCase),
+
+          ElevatedButton(
+            onPressed: () {
+              appState.getNext();
+            },
+            child: Text('Next'),
+          ),
         ],
       ),
     );
